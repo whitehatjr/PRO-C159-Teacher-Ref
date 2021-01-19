@@ -1,14 +1,14 @@
 AFRAME.registerComponent("tour", {
   schema: {
     state: { type: "string", default: "places-list" },
-    selectedCard: { type: "string", default: "#card1" },    
+    selectedCard: { type: "string", default: "#card1" },
   },
   init: function () {
-    this.placesContainer = this.el;   
+    this.placesContainer = this.el;
     this.createCards();
   },
 
-  tick: function() {
+  tick: function () {
     const { state } = this.el.getAttribute("tour");
 
     if (state === "view") {
@@ -16,18 +16,21 @@ AFRAME.registerComponent("tour", {
       this.showView();
     }
   },
-  hideEl: function(elList) {
+  hideEl: function (elList) {
     elList.map(el => {
       el.setAttribute("visible", false);
     });
   },
 
-  showView: function() {
+  showView: function () {
     const { selectedCard } = this.data;
+
+    //Set the 360 degree image to the sky element.
     const skyEl = document.querySelector("#main-container");
+
     skyEl.setAttribute("material", {
       src: `./assets/360_images/${selectedCard}/place-0.jpg`,
-      color: "pink"
+      color: "white"
     });
   },
 
@@ -47,7 +50,7 @@ AFRAME.registerComponent("tour", {
       {
         id: "eiffel-tower",
         title: "Eiffel Tower",
-        url: "./assets/thumbnails/eiffel_tower.png",
+        url: "./assets/thumbnails/eiffel_tower.jpg",
       },
       {
         id: "new-york-city",
@@ -67,7 +70,7 @@ AFRAME.registerComponent("tour", {
       // Border Element
       const borderEl = this.createBorder(position, item.id);
 
-      // Thubnail Element
+      // Thumbnail Element
       const thumbNail = this.createThumbNail(item);
       borderEl.appendChild(thumbNail);
 
@@ -104,8 +107,6 @@ AFRAME.registerComponent("tour", {
       radius: 9,
     });
     entityEl.setAttribute("material", { src: item.url });
-
-    entityEl.setAttribute("cursor-listener", {});
     return entityEl;
   },
   createTitleEl: function (position, item) {
